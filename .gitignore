@@ -16,6 +16,7 @@ build/
 data/
 kaggle_cache/
 datasets/
+test_images/
 *.cache
 
 # --- YOLO / AI specific ---
@@ -23,6 +24,8 @@ runs/
 *.pt
 *.onnx
 *.engine
+gradcam_result.jpg
+*_result.jpg
 
 # --- System files ---
 .DS_Store
@@ -299,3 +302,24 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+…/PycharmProjects/AircraftClassifier ✗ git init
+Initialized empty Git repository in /home/sanguinius/PycharmProjects/AircraftClassifier/.git/
+
+AircraftClassifier master ? ❯ git add .
+
+AircraftClassifier master ❯ git commit -m "Initial commit: YOLO training setup"
+[master (root-commit) 48cc2bf] Initial commit: YOLO training setup
+ 5 files changed, 555 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 main.py
+ create mode 100644 requirements.txt
+ create mode 100644 resume.py
+ create mode 100644 test.py
+
+AircraftClassifier master ❯ git branch -M main
+
+AircraftClassifier main ❯ git remote add origin https://github.com/Sanguinius90/Aircraft-Classifier.git
+
+AircraftClassifier main ❯ git status
+On branch main
+nothing to commit, working tree clean

@@ -5,7 +5,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
 
-MODEL_PATH = BASE_DIR / 'runs' / 'yolo26n_training' / 'weights' / 'best.pt'
+MODEL_PATH = "/mnt/ai_data/aircraft_training_runs/yolo26m_imgsz640_fixed_classes/weights/best.pt"
 
 
 def run_inference():
@@ -45,7 +45,7 @@ def run_inference():
     results = model.predict(
         source=str(source_path),
         save=True,
-        conf=0.25,
+        conf=0.01,
         imgsz=640,
         device=target_device
     )
