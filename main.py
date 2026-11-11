@@ -69,7 +69,7 @@ def main():
 
     model.train(
         data=str(yaml_path),
-        epochs=115,
+        epochs=200,
         imgsz=640,
         batch=20,
         workers=12,

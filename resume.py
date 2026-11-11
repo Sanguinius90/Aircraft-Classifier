@@ -7,7 +7,7 @@ from augmentations import build_train_augmentations
 
 BASE_DIR = Path(__file__).resolve().parent
 AI_DATA_RUNS = "/mnt/ai_data/aircraft_training_runs"
-LAST_WEIGHTS = "/mnt/ai_data/aircraft_training_runs/yolo26m_imgsz640_fixed_classes/weights/last.pt"
+LAST_WEIGHTS = "/mnt/ai_data/aircraft_training_runs/yolo26m_imgsz640_augmented/weights/last.pt"
 DATA_CONFIG = str(BASE_DIR / 'data' / 'aircraft_config.yaml')
 
 def resume_training():
@@ -16,14 +16,21 @@ def resume_training():
         return
 
     target_device = 0 if torch.cuda.is_available() else "cpu"
+    train_augmentations = build_train_augmentations()
     print(f"Resuming training from checkpoint: {LAST_WEIGHTS}")
+    print(
+        "Using Albumentations transforms: "
+        + ", ".join(type(transform).__name__ for transform in train_augmentations)
+    )
 
     try:
         model = YOLO(LAST_WEIGHTS)
 
         model.train(
-            resume=True,
-            augmentations=build_train_augmentations(),
+            resume=LAST_WEIGHTS,
+            augment=True,
+            augmentations=train_augmentations,
+            device=target_device,
         )
 
 
