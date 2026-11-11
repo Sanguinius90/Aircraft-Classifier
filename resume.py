@@ -3,6 +3,8 @@ import torch
 from ultralytics import YOLO
 from pathlib import Path
 
+from augmentations import build_train_augmentations
+
 BASE_DIR = Path(__file__).resolve().parent
 AI_DATA_RUNS = "/mnt/ai_data/aircraft_training_runs"
 LAST_WEIGHTS = "/mnt/ai_data/aircraft_training_runs/yolo26m_imgsz640_fixed_classes/weights/last.pt"
@@ -19,7 +21,10 @@ def resume_training():
     try:
         model = YOLO(LAST_WEIGHTS)
 
-        model.train(resume=True)
+        model.train(
+            resume=True,
+            augmentations=build_train_augmentations(),
+        )
 
 
     except Exception as e:

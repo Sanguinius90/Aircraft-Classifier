@@ -1,9 +1,12 @@
 import os
 import yaml
 import torch
+from torchvision.transforms.functional import perspective
 from ultralytics import YOLO
 import kagglehub
 from pathlib import Path
+
+from augmentations import build_train_augmentations
 
 BASE_DIR = Path(__file__).resolve().parent
 AI_PROJECT_PATH = "/mnt/ai_data/aircraft_training_runs"
@@ -13,15 +16,15 @@ os.makedirs(AI_PROJECT_PATH, exist_ok=True)
 os.environ['KAGGLEHUB_CACHE'] = str(DATA_DIR / "kaggle_cache")
 
 AIRCRAFT_CLASSES = [
-'A10', 'A400M', 'AG600', 'AH64', 'AKINCI', 'AV8B', 'An124', 'An22', 'An225', 'An72',
-'B1', 'B2', 'B52', 'Be200', 'C1', 'C130', 'C17', 'C2', 'C390', 'C5', 'CH47', 'CH53',
-'CL415', 'E2', 'E7', 'EF2000', 'EMB314', 'F117', 'F14', 'F15', 'F16', 'F18', 'F2',
-'F22', 'F35', 'F4', 'FCK1', 'H6', 'Il76', 'J10', 'J20', 'J35', 'J36', 'JAS39',
-'JF17', 'JH7', 'KAAN', 'KC135', 'KF21', 'KJ600', 'Ka27', 'Ka52', 'MQ9', 'Mi24',
-'Mi26', 'Mi28', 'Mi8', 'Mig29', 'Mig31', 'Mirage2000', 'P3', 'RQ4', 'Rafale',
-'SR71', 'Su24', 'Su25', 'Su34', 'Su47', 'Su57', 'TB001', 'TB2', 'Tejas', 'Tornado',
-'Tu160', 'Tu22M', 'Tu95', 'U2', 'UH60', 'US2', 'V22', 'Vulcan', 'WZ7', 'X32',
-'XB70', 'Y20', 'YF23', 'Z10', 'Z19'
+'A10', 'A400M', 'AG600', 'AH64', 'AKINCI', 'AV8B', 'An124', 'An22', 'An225', 'An72', #0-9
+'B1', 'B2', 'B52', 'Be200', 'C1', 'C130', 'C17', 'C2', 'C390', 'C5', 'CH47', 'CH53', #10-21
+'CL415', 'E2', 'E7', 'EF2000', 'EMB314', 'F117', 'F14', 'F15', 'F16', 'F18', 'F2', #22-32
+'F22', 'F35', 'F4', 'FCK1', 'H6', 'Il76', 'J10', 'J20', 'J35', 'J36', 'JAS39', #33-43
+'JF17', 'JH7', 'KAAN', 'KC135', 'KF21', 'KJ600', 'Ka27', 'Ka52', 'MQ9', 'Mi24', #44-53
+'Mi26', 'Mi28', 'Mi8', 'Mig29', 'Mig31', 'Mirage2000', 'P3', 'RQ4', 'Rafale', #54-62
+'SR71', 'Su24', 'Su25', 'Su34', 'Su47', 'Su57', 'TB001', 'TB2', 'Tejas', 'Tornado', #63-72
+'Tu160', 'Tu22M', 'Tu95', 'U2', 'UH60', 'US2', 'V22', 'Vulcan', 'WZ7', 'X32', #73-82
+'XB70', 'Y20', 'YF23', 'Z10', 'Z19' #83-87
 ]
 def main():
     if torch.cuda.is_available():
@@ -78,12 +81,26 @@ def main():
         cos_lr=True,
         warmup_epochs=5.0,
         label_smoothing=0.1,
+
         augment=True,
+        augmentations=build_train_augmentations(),
+
+        degrees=180.0,
+        translate=0.2,
+        scale=0.7,
+        shear=10.0,
+        perspective=0.001,
+        flipud=0.5,
+        fliplr=0.5,
         mosaic=1.0,
         mixup=0.2,
+        copy_paste=0.3,
+
+        close_mosaic=15,
+
         patience=25,
         project=AI_PROJECT_PATH,
-        name='yolo26m_imgsz640_fixed_classes',
+        name='yolo26m_imgsz640_augmented',
         exist_ok=True
     )
 
