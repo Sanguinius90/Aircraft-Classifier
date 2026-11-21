@@ -85,22 +85,22 @@ def main():
         augment=True,
         augmentations=build_train_augmentations(),
 
-        degrees=180.0,
-        translate=0.2,
-        scale=0.7,
-        shear=10.0,
-        perspective=0.001,
-        flipud=0.5,
-        fliplr=0.5,
-        mosaic=1.0,
-        mixup=0.2,
-        copy_paste=0.3,
+        degrees=0.0,
+        translate=0.05,
+        scale=0.15,
+        shear=0.0,
+        perspective=0.0,
+        flipud=0.0,
+        fliplr=0.0,
+        mosaic=0.5,
+        mixup=0.0,
+        copy_paste=0.0,
 
         close_mosaic=15,
 
         patience=25,
         project=AI_PROJECT_PATH,
-        name='yolo26m_imgsz640_augmented',
+        name='yolo26m_imgsz640_augmented_RandAugment',
         exist_ok=True
     )
 

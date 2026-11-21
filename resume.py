@@ -7,7 +7,7 @@ from augmentations import build_train_augmentations
 
 BASE_DIR = Path(__file__).resolve().parent
 AI_DATA_RUNS = "/mnt/ai_data/aircraft_training_runs"
-LAST_WEIGHTS = "/mnt/ai_data/aircraft_training_runs/yolo26m_imgsz640_augmented/weights/last.pt"
+LAST_WEIGHTS = "/mnt/ai_data/aircraft_training_runs/yolo26m_imgsz640_augmented_RandAugment/weights/last.pt"
 DATA_CONFIG = str(BASE_DIR / 'data' / 'aircraft_config.yaml')
 
 def resume_training():
@@ -27,7 +27,7 @@ def resume_training():
         model = YOLO(LAST_WEIGHTS)
 
         model.train(
-            resume=LAST_WEIGHTS,
+            resume=True,
             augment=True,
             augmentations=train_augmentations,
             device=target_device,
